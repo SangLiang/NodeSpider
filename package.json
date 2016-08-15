@@ -1,0 +1,8 @@
+{
+  "name": "NodeSpider",
+  "version": "0.0.1",
+  "dependencies": {
+    "request": "^2.74.0",
+    "cheerio":"^0.20.0"
+  }
+}
