@@ -1,12 +1,17 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-request('http://www.wangdabl.com/',function(error,response,body){
+var getDate = function(html) {
+	var $ = cheerio.load(html);
+	console.log($('.fcon').length);
+}
+
+request('http://www.aiqitu.cn/',function(error,response,body){
     if(!error && response.statusCode == 200){
         console.log(body);
+        getDate(body);
     }else{
         console.log(error);
     }
 });
 
-console.warn(cheerio);
