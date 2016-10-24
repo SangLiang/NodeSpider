@@ -2,7 +2,9 @@
   "name": "NodeSpider",
   "version": "0.0.1",
   "dependencies": {
-    "request": "^2.74.0",
-    "cheerio":"^0.20.0"
+    "cheerio": "^0.20.0",
+    "iconv-lite": "^0.4.13",
+    "mysql": "^2.11.1",
+    "request": "^2.74.0"
   }
 }
