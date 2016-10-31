@@ -1,6 +1,9 @@
 {
   "name": "NodeSpider",
   "version": "0.0.1",
+  "scripts":{
+	  "start":"node index.js"
+  },
   "dependencies": {
     "cheerio": "^0.20.0",
     "iconv-lite": "^0.4.13",
