@@ -30,6 +30,8 @@ function getDate(html) {
             "position": _position
         };
         writeInSql(insertObj);
+        console.log(1);
+        
     }
 }
 
