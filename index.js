@@ -4,12 +4,12 @@ var cheerio = require('cheerio');
 var mysql = require('mysql');
 var sqlseeting = require('./src/dbconfig.js');
 var connection = mysql.createConnection(sqlseeting);
-var searchUrl = "http://cs.fang.anjuke.com/loupan/yuelu/p1/";
-var id = 0;
 
+var searchUrl = "http://cs.fang.anjuke.com/loupan/tianxin/p1/";
+var searchUrl2 = [];
 connection.connect();
 
-connection.query("DROP TABLE IF EXISTS yuelu",function(err,result){
+connection.query("DROP TABLE IF EXISTS tianxin",function(err,result){
     if (err) throw err;
 });
 
@@ -20,14 +20,14 @@ function getDate(html) {
     var itemLenth = $(".item-mod").length;
     var nextPage = $(".next-page");
 
+    // var serchList = {};
+
     for (var i = 0; i < itemLenth; i++) {
         var _placeName = $(".item-mod").eq(i).find(".items-name").text();
         var _price = $(".item-mod").eq(i).find(".price").text();
         var _position =  $(".item-mod").eq(i).find(".address").text();
-        ++id;
 
         var insertObj = {
-            "id": id,
             "name": _placeName,
             "money": _price,
             "position": _position
@@ -36,7 +36,7 @@ function getDate(html) {
         // 执行插入
         writeInSql(insertObj);
     }
-     console.log(nextPage.attr("href"));
+        console.log(nextPage.attr("href"));
         setTimeout(function(){
             if(nextPage.attr("href")!=undefined){
                 searchUrl = nextPage.attr("href");
@@ -51,17 +51,18 @@ function getDate(html) {
 function writeInSql(obj) {
     if(!obj.name){return;}
 
-    connection.query("CREATE TABLE IF NOT EXISTS yuelu(id int not null primary key,name varchar(255),money varchar(255),position varchar(255))",function(err,result){
+    connection.query("CREATE TABLE IF NOT EXISTS tianxin(id int not null primary key auto_increment,name varchar(255),money varchar(255),position varchar(255))",function(err,result){
         if(err){
             throw err;
         }else{
-            connection.query('insert into yuelu set ?', obj, function (err, result) {
+            connection.query('insert into tianxin set ?', obj, function (err, result) {
                 if (err) throw err;
             });
         }
     });
 }
 
+// 开始对url发出请求
 function Init(){
     request(
         {
@@ -80,4 +81,3 @@ function Init(){
 }
 
 Init();
-
