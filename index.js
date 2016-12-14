@@ -5,11 +5,11 @@ var mysql = require('mysql');
 var sqlseeting = require('./src/dbconfig.js');
 var connection = mysql.createConnection(sqlseeting);
 
-var searchUrl = "http://cs.fang.anjuke.com/loupan/tianxin/p1/";
+var searchUrl = "http://cs.fang.anjuke.com/loupan/wangcheng/p1/";
 var searchUrl2 = [];
 connection.connect();
 
-connection.query("DROP TABLE IF EXISTS tianxin",function(err,result){
+connection.query("DROP TABLE IF EXISTS wangcheng",function(err,result){
     if (err) throw err;
 });
 
@@ -19,8 +19,6 @@ function getDate(html) {
     var priceLength = $('.price').length;
     var itemLenth = $(".item-mod").length;
     var nextPage = $(".next-page");
-
-    // var serchList = {};
 
     for (var i = 0; i < itemLenth; i++) {
         var _placeName = $(".item-mod").eq(i).find(".items-name").text();
@@ -35,10 +33,9 @@ function getDate(html) {
 
         // 执行插入
         writeInSql(insertObj);
-        console.log(1);
         
     }
-        console.log(nextPage.attr("href"));
+        console.log("当前正在爬取的页面为"+nextPage.attr("href"));
         setTimeout(function(){
             if(nextPage.attr("href")!=undefined){
                 searchUrl = nextPage.attr("href");
@@ -53,11 +50,12 @@ function getDate(html) {
 function writeInSql(obj) {
     if(!obj.name){return;}
 
-    connection.query("CREATE TABLE IF NOT EXISTS tianxin(id int not null primary key auto_increment,name varchar(255),money varchar(255),position varchar(255))",function(err,result){
+    // 如果数据表不存在，则创建一张新的表
+    connection.query("CREATE TABLE IF NOT EXISTS wangcheng(id int not null primary key auto_increment,name varchar(255),money varchar(255),position varchar(255))",function(err,result){
         if(err){
             throw err;
         }else{
-            connection.query('insert into tianxin set ?', obj, function (err, result) {
+            connection.query('insert into wangcheng set ?', obj, function (err, result) {
                 if (err) throw err;
             });
         }
